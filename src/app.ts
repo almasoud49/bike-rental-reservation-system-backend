@@ -1,10 +1,16 @@
-import express, { Request, Response } from 'express'
+import express, { Application, Request, Response } from 'express'
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import router from './app/routes';
 
+const app: Application = express();
 
-const app = express();
-
-
+//parsers
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors({ origin: ['http://localhost:5173'] }));
+
+app.use('/api', router);
 
 app.get('/', (req:Request, res:Response) => {
   res.send('Hello Everyone to My Bike Rental Reservation System Backend Application!')
