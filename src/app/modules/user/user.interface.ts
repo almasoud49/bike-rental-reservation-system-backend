@@ -4,3 +4,4 @@ export type TUpdateUser = {
   phone?: string;
   address?: string;
 };
+
