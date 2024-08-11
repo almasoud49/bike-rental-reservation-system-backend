@@ -8,4 +8,9 @@ router.post(
     AuthControllers.createUser,
 );
 
+router.post(
+  '/login',
+    AuthControllers.loginUser,
+);
+
 export const AuthRoutes = router;
