@@ -14,15 +14,21 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-const loginUser =catchAsync(async (req, res) => {
+const loginUser = catchAsync(async (req, res) => {
   const userData = req.body;
   const result = await AuthServices.loginUser(userData);
-  sendResponse(res, {
-    message: 'User logged in successfully',
-    status: 201,
-    data: result,
-  })
-})
+  const { accessToken, refreshToken, isUserExist } = result;
+  isUserExist.password = '';
+  res.cookie('refreshToken', refreshToken);
+  sendResponse(
+    res,
+    {
+      message: 'User logged in successfully!',
+      data: isUserExist,
+    },
+    accessToken,
+  );
+});
 
 export const AuthControllers = {
   createUser,
