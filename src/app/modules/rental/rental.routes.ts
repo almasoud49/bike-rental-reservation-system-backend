@@ -1,17 +1,19 @@
-import { Router } from 'express';
-import { RentalControllers } from './rental.controller';
+import { Router } from 'express'
+import { RentalControllers } from './rental.controller'
+import validateRequest from '../../middleware/validateRequest'
+import { RentalValidation } from './rental.validation'
+import { auth } from '../../middleware/auth'
 
-
-const router = Router();
+const router = Router()
 
 router.post(
   '/',
-  
+  validateRequest(RentalValidation.rentalValidationSchema),
   RentalControllers.createRental,
-);
+)
 
-router.put('/:id/return', RentalControllers.returnBike);
+router.put('/:id/return', auth(['admin']), RentalControllers.returnBike)
 
-router.get('/', RentalControllers.getAllRentals);
+router.get('/', RentalControllers.getAllRentals)
 
-export const RentalRoutes = router 
+export const RentalRoutes = router
