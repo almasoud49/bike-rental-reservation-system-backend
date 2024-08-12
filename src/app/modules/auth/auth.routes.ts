@@ -13,4 +13,9 @@ router.post(
     AuthControllers.loginUser,
 );
 
+router.post(
+  '/generate-access-token',
+  AuthControllers.generateAccessToken,
+);
+
 export const AuthRoutes = router;
