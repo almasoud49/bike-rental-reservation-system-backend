@@ -3,6 +3,7 @@ import { AppError } from "../../errors/AppError";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { UserServices } from "./user.service";
+import dataNotFound from "../../utils/dataNotFound";
 
 
 const getProfile = catchAsync(async (req, res) => {
@@ -20,8 +21,21 @@ const getProfile = catchAsync(async (req, res) => {
   });
 });
 
+const updateUserProfile = catchAsync(async (req, res) => {
+  const updateDoc = req.body;
+  const token = req.headers.authorization as string;
+  
+  const result = await UserServices.updateUserProfile(updateDoc, token);
+  dataNotFound(result, res);
+  sendResponse(res, {
+    message: 'Profile updated successfully!',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   
   getProfile,
+  updateUserProfile
   
 };
