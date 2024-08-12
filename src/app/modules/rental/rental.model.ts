@@ -8,12 +8,12 @@ import { UserModel } from '../user/user.model';
 const rentalSchema = new Schema<TRental>({
   userId: { 
     type: Schema.Types.ObjectId, 
-    ref: 'user' 
+    ref: 'User' 
   },
   bikeId: { 
     type: Schema.Types.ObjectId, 
     required: true, 
-    ref: 'bike' 
+    ref: 'Bike' 
   },
   startTime: { 
     type: String, 

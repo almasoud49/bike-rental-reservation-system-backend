@@ -10,7 +10,8 @@ router.post(
   RentalControllers.createRental,
 );
 
-// router.put('/:id/return', authVerify(['admin']), RentalControllers.returnBike);
-// router.get('/', RentalControllers.getAllRentals);
+router.put('/:id/return', RentalControllers.returnBike);
+
+router.get('/', RentalControllers.getAllRentals);
 
 export const RentalRoutes = router 
