@@ -6,6 +6,11 @@ router.post('/', BikeControllers.createBike);
 
 router.get('/', BikeControllers.getAllBikes);
 
+router.put(
+  '/:id',
+  BikeControllers.updateBike,
+);
 
+router.delete('/:id', BikeControllers.deleteBike);
 
 export const BikeRoutes = router

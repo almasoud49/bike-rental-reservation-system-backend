@@ -23,9 +23,29 @@ const getAllBikes = catchAsync(async (req, res) => {
   });
 });
 
+const updateBike = catchAsync(async (req, res) => {
+  const updateDoc = req.body;
+  const result = await BikeServices.updateBike(
+    updateDoc,
+    req?.params?.id,
+  );
+  sendResponse(res, {
+    message: 'Bike updated successfully',
+    data: result,
+  });
+});
+
+const deleteBike = catchAsync(async (req, res) => {
+  const result = await BikeServices.deleteBike(req?.params?.id);
+  sendResponse(res, {
+    message: 'Bike deleted successfully',
+    data: result,
+  });
+});
+
 export const BikeControllers = {
   createBike,
   getAllBikes,
-  // updateBike,
-  // deleteBike,
+  updateBike,
+  deleteBike,
 };
