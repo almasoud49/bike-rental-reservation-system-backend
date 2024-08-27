@@ -11,6 +11,10 @@ const getAllBikes = async () => {
   const result = await BikeModel.find().select('-createdAt -updatedAt -__v');
   return result;
 };
+const getSingleBike = async (id:string) => {
+  const result = await BikeModel.findById(id).select('-createdAt -updatedAt -__v');
+  return result;
+};
 
 const updateBike = async (payload: Partial<TBike>, id: string) => {
   const result = await BikeModel.findOneAndUpdate({ _id: id }, payload, {
@@ -27,6 +31,7 @@ const deleteBike = async (id: string) => {
 export const BikeServices = {
   createBike,
   getAllBikes,
+  getSingleBike,
   updateBike,
   deleteBike
 };
