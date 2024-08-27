@@ -12,7 +12,7 @@ const getAllBikes = async () => {
   return result;
 };
 const getSingleBike = async (id:string) => {
-  const result = await BikeModel.findById(id).select('-createdAt -updatedAt -__v');
+  const result = await BikeModel.findById({ _id: id }).select('-createdAt -updatedAt -__v');
   return result;
 };
 
