@@ -12,6 +12,7 @@ const bike_validation_1 = require("./bike.validation");
 const router = (0, express_1.Router)();
 router.post('/', (0, auth_1.auth)(['admin']), (0, validateRequest_1.default)(bike_validation_1.BikeValidations.bikeValidationSchema), bike_controller_1.BikeControllers.createBike);
 router.get('/', bike_controller_1.BikeControllers.getAllBikes);
+router.get('/:id', bike_controller_1.BikeControllers.getSingleBike);
 router.put('/:id', (0, auth_1.auth)(['admin']), (0, validateRequest_1.default)(bike_validation_1.BikeValidations.updateBikeValidationSchema), bike_controller_1.BikeControllers.updateBike);
 router.delete('/:id', (0, auth_1.auth)(['admin']), bike_controller_1.BikeControllers.deleteBike);
 exports.BikeRoutes = router;

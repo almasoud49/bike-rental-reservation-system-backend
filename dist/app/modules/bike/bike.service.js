@@ -20,6 +20,10 @@ const getAllBikes = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bike_model_1.BikeModel.find().select('-createdAt -updatedAt -__v');
     return result;
 });
+const getSingleBike = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield bike_model_1.BikeModel.findById({ _id: id }).select('-createdAt -updatedAt -__v');
+    return result;
+});
 const updateBike = (payload, id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bike_model_1.BikeModel.findOneAndUpdate({ _id: id }, payload, {
         new: true,
@@ -33,6 +37,7 @@ const deleteBike = (id) => __awaiter(void 0, void 0, void 0, function* () {
 exports.BikeServices = {
     createBike,
     getAllBikes,
+    getSingleBike,
     updateBike,
     deleteBike
 };
