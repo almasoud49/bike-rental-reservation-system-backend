@@ -5,6 +5,8 @@ const auth_routes_1 = require("../modules/auth/auth.routes");
 const user_routes_1 = require("../modules/user/user.routes");
 const bike_routes_1 = require("../modules/bike/bike.routes");
 const rental_routes_1 = require("../modules/rental/rental.routes");
+const review_route_1 = require("../modules/review/review.route");
+const benefit_route_1 = require("../modules/benefit/benefit.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -22,6 +24,14 @@ const moduleRoutes = [
     {
         path: '/rentals',
         route: rental_routes_1.RentalRoutes
+    },
+    {
+        path: '/reviews',
+        route: review_route_1.ReviewRoutes
+    },
+    {
+        path: '/benefits',
+        route: benefit_route_1.BenefitRoutes
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));

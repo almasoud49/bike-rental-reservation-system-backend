@@ -6,6 +6,7 @@ import { BikeRoutes } from '../modules/bike/bike.routes'
 import { RentalRoutes } from '../modules/rental/rental.routes'
 import { ReviewRoutes } from '../modules/review/review.route'
 import { BenefitRoutes } from '../modules/benefit/benefit.route'
+import { TeamRoutes } from '../modules/team/team.route'
 
 const router = Router()
 
@@ -33,6 +34,10 @@ const moduleRoutes = [
   { 
     path: '/benefits', 
     route:BenefitRoutes 
+  },
+  { 
+    path: '/teams', 
+    route:TeamRoutes 
   },
 
 ]
