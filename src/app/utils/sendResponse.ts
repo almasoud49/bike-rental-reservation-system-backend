@@ -13,7 +13,7 @@ const sendResponse = (
     success: true,
     statusCode: data.status || 200,
     message: data.message,
-    accessToken: token,
+    token: token,
     data: data.data,
   });
 };
