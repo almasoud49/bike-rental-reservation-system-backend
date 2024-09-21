@@ -7,4 +7,8 @@ export type TRental = {
   returnTime: string;
   totalCost: number;
   isReturned: boolean;
+  isPaid: boolean;
+  isAdvancePaid: boolean;
+  advanceTransactionId: string;
+  transactionId: string;
 };

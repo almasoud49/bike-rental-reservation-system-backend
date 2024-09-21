@@ -6,38 +6,23 @@ import httpStatus from 'http-status';
 import { UserModel } from '../user/user.model';
 
 const rentalSchema = new Schema<TRental>({
-  userId: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'User' 
-  },
-  bikeId: { 
-    type: Schema.Types.ObjectId, 
-    required: true, 
-    ref: 'Bike' 
-  },
-  startTime: { 
-    type: String, 
-    required: true 
-  },
-  returnTime: { 
-    type: String, 
-    default: null 
-  },
-  totalCost: { 
-    type: Number, 
-    default: 0 
-  },
-  isReturned: { 
-    type: Boolean, 
-    default: false 
-  },
+  userId: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
+  bikeId: { type: Schema.Types.ObjectId, required: true, ref: 'bike' },
+  startTime: { type: String, required: true },
+  returnTime: { type: String, default: null },
+  totalCost: { type: Number, default: 0 },
+  isReturned: { type: Boolean, default: false },
+  isPaid: { type: Boolean, default: false },
+  isAdvancePaid: { type: Boolean, default: false },
+  advanceTransactionId: { type: String },
+  transactionId: { type: String },
 });
 
 // check if user and bike exist 
 rentalSchema.pre('save', async function () {
   const isBikeExist = await BikeModel.findOne({ _id: this.bikeId });
   if (!isBikeExist) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Invalid bike ID!', 'bikeId');
+    throw new AppError(httpStatus.NOT_FOUND, 'Invalid Bike ID!');
   };
 
   // check if the bike is available
@@ -50,7 +35,7 @@ rentalSchema.pre('save', async function () {
 
   const isUserExist = await UserModel.findOne({ _id: this.userId });
   if (!isUserExist) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Invalid user ID!', 'userId');
+    throw new AppError(httpStatus.NOT_FOUND, 'Invalid User ID!');
   };
 });
 

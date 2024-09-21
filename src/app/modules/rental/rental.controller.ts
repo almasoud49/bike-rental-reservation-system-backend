@@ -9,7 +9,6 @@ import dataNotFound from '../../utils/dataNotFound';
 
 const createRental = catchAsync(async (req, res) => {
   const authHeader = req?.headers?.authorization as string;
-
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
   }
@@ -20,8 +19,12 @@ const createRental = catchAsync(async (req, res) => {
     config.jwt_access_secret as string,
   ) as JwtPayload;
 
-  const rentalData = req.body;
-  const result = await RentalServices.createRental(rentalData, decoded);
+  const { rentalData, paymentInfo } = req.body;
+  const result = await RentalServices.createRentalIntoDb(
+    rentalData,
+    decoded,
+    paymentInfo,
+  );
   sendResponse(res, {
     message: 'Rental created successfully',
     status: 201,
@@ -31,7 +34,8 @@ const createRental = catchAsync(async (req, res) => {
 
 const returnBike = catchAsync(async (req, res) => {
   const id = req?.params?.id;
-  const result = await RentalServices.returnBike(id);
+  const { rentalEndTime } = req.body;
+  const result = await RentalServices.returnBike(id, rentalEndTime);
   sendResponse(res, {
     message: 'Bike returned successfully',
     data: result,
@@ -39,19 +43,29 @@ const returnBike = catchAsync(async (req, res) => {
 });
 
 const getAllRentals = catchAsync(async (req, res) => {
-  const authHeader = req?.headers?.authorization as string;
+  const queryData = req?.query;
+  const { myRentals, ...query } = queryData;
+  let decoded;
+  if (myRentals) {
+    const authHeader = req?.headers?.authorization as string;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
+    }
+    const token = authHeader.split(' ')[1];
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
+    const decodedInfo = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+
+    decoded = decodedInfo;
   }
-  const token = authHeader.split(' ')[1];
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string,
-  ) as JwtPayload;
-
-  const result = await RentalServices.getAllRentals(decoded);
+  const result = await RentalServices.getAllRentalsFromDb(
+    decoded as JwtPayload,
+    query,
+    myRentals as string,
+  );
   dataNotFound(result, res);
   sendResponse(res, {
     message: 'Rentals retrieved successfully',
@@ -59,9 +73,62 @@ const getAllRentals = catchAsync(async (req, res) => {
   });
 });
 
+const advancePaymentSuccess = catchAsync(async (req, res) => {
+  const transactionId = req?.params?.transactionId;
+  await RentalServices.makeAdvancePaymentSuccess(transactionId);
+  res.redirect(
+    `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`,
+  );
+});
+
+const advancePaymentFail = catchAsync(async (req, res) => {
+  const transactionId = req?.params?.transactionId;
+  await RentalServices.makeAdvancePaymentFail(transactionId);
+  res.redirect(`https://bike-rent-reservation-system.netlify.app/advance-payment-failure`);
+});
+
+const getSingleRental = catchAsync(async (req, res) => {
+  const id = req?.params?.id;
+  const result = await RentalServices.getSingleRentalFromDb(id);
+  sendResponse(res, {
+    message: 'Rental retrieved successfully',
+    data: result,
+  });
+});
+
+const makePayment = catchAsync(async (req, res) => {
+  const id = req?.params?.id;
+  const paymentInfo = req.body;
+  const result = await RentalServices.makePayment(id, paymentInfo);
+  sendResponse(res, {
+    message: result.message || 'Payment initiated successfully',
+    data: result,
+  });
+});
+
+const paymentSuccess = catchAsync(async (req, res) => {
+  const transactionId = req?.params?.transactionId;
+  const rentalId = req?.params?.rentalId;
+  await RentalServices.paymentSuccess(transactionId, rentalId);
+  res.redirect(
+    `https://bike-rent-reservation-system.netlify.app/payment-success/${transactionId}`,
+  );
+});
+
+const paymentFail = catchAsync(async (req, res) => {
+  const transactionId = req?.params?.transactionId;
+  await RentalServices.paymentFail(transactionId);
+  res.redirect(`https://bike-rent-reservation-system.netlify.app/payment-failure`);
+});
 
 export const RentalControllers = { 
   createRental, 
   returnBike, 
-  getAllRentals 
+  getAllRentals,
+  advancePaymentSuccess,
+  advancePaymentFail,
+  getSingleRental,
+  makePayment,
+  paymentSuccess,
+  paymentFail
 };
