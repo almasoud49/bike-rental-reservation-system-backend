@@ -1,7 +1,5 @@
 import { Router } from 'express'
-
 import { AuthRoutes } from '../modules/auth/auth.routes'
-import { UserRoutes } from '../modules/user/user.routes'
 import { BikeRoutes } from '../modules/bike/bike.routes'
 import { RentalRoutes } from '../modules/rental/rental.routes'
 import { ReviewRoutes } from '../modules/review/review.route'
@@ -13,35 +11,36 @@ const router = Router()
 const moduleRoutes = [
   {
     path: '/auth',
-    route: AuthRoutes,
+    route: AuthRoutes.authRouter,
   },
   {
     path: '/users',
-    route: UserRoutes,
+    route: AuthRoutes.userRouter,
   },
   {
     path: '/bikes',
     route: BikeRoutes,
   },
-  { 
-    path: '/rentals', 
-    route:RentalRoutes 
+  {
+    path: '/rentals',
+    route: RentalRoutes,
   },
-  { 
-    path: '/reviews', 
-    route:ReviewRoutes 
+  {
+    path: '/reviews',
+    route: ReviewRoutes,
   },
-  { 
-    path: '/benefits', 
-    route:BenefitRoutes 
+  {
+    path: '/benefits',
+    route: BenefitRoutes,
   },
-  { 
-    path: '/teams', 
-    route:TeamRoutes 
+  {
+    path: '/teams',
+    route: TeamRoutes,
   },
-
 ]
 
 moduleRoutes.forEach(route => router.use(route.path, route.route))
 
 export default router
+
+

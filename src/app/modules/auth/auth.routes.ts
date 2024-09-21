@@ -3,24 +3,40 @@ import { Router } from 'express';
 import { AuthControllers } from './auth.controller';
 import validateRequest from '../../middleware/validateRequest';
 import { UserValidations } from '../user/user.validations';
+import { auth } from '../../middleware/auth';
 
-const router = Router();
+const authRouter = Router();
+const userRouter = Router();
 
-router.post(
+authRouter.post(
   '/signup',
   validateRequest(UserValidations.createUserValidationSchema),
     AuthControllers.createUser,
 );
 
-router.post(
+authRouter.post(
   '/login',
   validateRequest(AuthValidation.loginUserValidationSchema),
     AuthControllers.loginUser
 );
 
-router.post(
+authRouter.post(
   '/generate-access-token',
   AuthControllers.generateAccessToken,
 );
 
-export const AuthRoutes = router;
+userRouter.get('/me', AuthControllers.getProfile);
+
+userRouter.put(
+  '/me',
+  validateRequest(AuthValidation.updateUserProfileValidationSchema),
+  AuthControllers.updateUserProfile,
+);
+
+userRouter.get('/', auth(['admin']), AuthControllers.getAllUsers);
+
+userRouter.delete('/:id', auth(['admin']), AuthControllers.deleteUser);
+
+userRouter.put('/:id', auth(['admin']), AuthControllers.updateUserRole);
+
+export const AuthRoutes = { authRouter, userRouter };
