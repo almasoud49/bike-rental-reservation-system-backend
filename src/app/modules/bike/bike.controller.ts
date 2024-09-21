@@ -15,16 +15,17 @@ const createBike = catchAsync(async (req, res) => {
 });
 
 const getAllBikes = catchAsync(async (req, res) => {
-  const result = await BikeServices.getAllBikes();
+  const result = await BikeServices.getAllBikes(req.query);
  dataNotFound(result, res);
   sendResponse(res, {
     message: 'Bikes retrieved successfully',
     data: result,
   });
 });
+
 const getSingleBike = catchAsync(async (req, res) => {
-  const {id} = req.params
-  const result = await BikeServices.getSingleBike(id);
+  
+  const result = await BikeServices.getSingleBike(req?.params?.bikeId);
  dataNotFound(result, res);
   sendResponse(res, {
     message: 'Bike Retrieved Successfully',

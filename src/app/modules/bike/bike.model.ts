@@ -7,38 +7,21 @@ const bikeSchema = new Schema<TBike>(
   {
     name: {
       type: String,
-      required: true ,
+      required: [true, 'name is required'],
       unique: true,
       trim: true,
     },
-    description: { 
-      type: String, 
-      required: true  
+    image: {
+      type: String,
+      required: [true, 'image is required'],
     },
-    pricePerHour: { 
-      type: Number, 
-      required: true  
-    },
-    isAvailable: { 
-      type: Boolean, 
-      default: true 
-    },
-    cc: { 
-      type: Number, 
-      required: true 
-    },
-    year: { 
-      type: Number, 
-      required: true  
-    },
-    model: { 
-      type: String, 
-      required: true 
-    },
-    brand: { 
-      type: String, 
-      required: true  
-    },
+    description: { type: String, required: [true, 'description is required'] },
+    pricePerHour: { type: Number, required: [true, 'price is required'] },
+    isAvailable: { type: Boolean, default: true },
+    cc: { type: String, required: [true, 'cc is required'] },
+    year: { type: Number, required: [true, 'year is required'] },
+    model: { type: String, required: [true, 'model is required'] },
+    brand: { type: String, required: [true, 'brand is required'] },
   },
   { timestamps: true },
 );
@@ -51,7 +34,7 @@ bikeSchema.pre('save', async function () {
     throw new AppError(
       httpStatus.CONFLICT,
       'A bike is already exist with the name',
-      'name',
+      
     );
   }
 });
@@ -61,7 +44,7 @@ bikeSchema.pre('findOneAndUpdate', async function () {
   const query = this.getQuery();
   const bike = await BikeModel.findOne(query);
   if (!bike) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Invalid bike id!');
+    throw new AppError(httpStatus.NOT_FOUND, 'Invalid Bike id!');
   }
 });
 
@@ -72,8 +55,8 @@ bikeSchema.pre('findOneAndDelete', async function () {
   if (!isBikeExist) {
     throw new AppError(
       httpStatus.NOT_FOUND,
-      'Invalid bike id!',
-      'id',
+      'Invalid Bike id!',
+      
     );
   }
 });
