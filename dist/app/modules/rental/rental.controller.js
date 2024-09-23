@@ -83,13 +83,13 @@ const advancePaymentSuccess = (0, catchAsync_1.default)((req, res) => __awaiter(
     var _a;
     const transactionId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.transactionId;
     yield rental_service_1.RentalServices.makeAdvancePaymentSuccess(transactionId);
-    res.redirect(`https://bike-rent-reservation-system.netlify.app//dashboard/user/my-rentals?booking=confirmed`);
+    res.redirect(`https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`);
 }));
 const advancePaymentFail = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const transactionId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.transactionId;
     yield rental_service_1.RentalServices.makeAdvancePaymentFail(transactionId);
-    res.redirect(`https://bike-rent-reservation-system.netlify.app//advance-payment-failure`);
+    res.redirect(`https://bike-rent-reservation-system.netlify.app/advance-payment-failure`);
 }));
 const getSingleRental = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -115,13 +115,13 @@ const paymentSuccess = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     const transactionId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.transactionId;
     const rentalId = (_b = req === null || req === void 0 ? void 0 : req.params) === null || _b === void 0 ? void 0 : _b.rentalId;
     yield rental_service_1.RentalServices.paymentSuccess(transactionId, rentalId);
-    res.redirect(`https://bike-rent-reservation-system.netlify.app//payment-success/${transactionId}`);
+    res.redirect(`https://bike-rent-reservation-system.netlify.app/payment-success/${transactionId}`);
 }));
 const paymentFail = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const transactionId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.transactionId;
     yield rental_service_1.RentalServices.paymentFail(transactionId);
-    res.redirect(`https://bike-rent-reservation-system.netlify.app//payment-failure`);
+    res.redirect(`https://bike-rent-reservation-system.netlify.app/payment-failure`);
 }));
 exports.RentalControllers = {
     createRental,

@@ -77,7 +77,7 @@ const advancePaymentSuccess = catchAsync(async (req, res) => {
   const transactionId = req?.params?.transactionId
   await RentalServices.makeAdvancePaymentSuccess(transactionId)
   res.redirect(
-    `https://bike-rent-reservation-system.netlify.app//dashboard/user/my-rentals?booking=confirmed`,
+    `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`,
   )
 })
 
@@ -85,7 +85,7 @@ const advancePaymentFail = catchAsync(async (req, res) => {
   const transactionId = req?.params?.transactionId
   await RentalServices.makeAdvancePaymentFail(transactionId)
   res.redirect(
-    `https://bike-rent-reservation-system.netlify.app//advance-payment-failure`,
+    `https://bike-rent-reservation-system.netlify.app/advance-payment-failure`,
   )
 })
 
@@ -113,7 +113,7 @@ const paymentSuccess = catchAsync(async (req, res) => {
   const rentalId = req?.params?.rentalId
   await RentalServices.paymentSuccess(transactionId, rentalId)
   res.redirect(
-    `https://bike-rent-reservation-system.netlify.app//payment-success/${transactionId}`,
+    `https://bike-rent-reservation-system.netlify.app/payment-success/${transactionId}`,
   )
 })
 
@@ -121,7 +121,7 @@ const paymentFail = catchAsync(async (req, res) => {
   const transactionId = req?.params?.transactionId
   await RentalServices.paymentFail(transactionId)
   res.redirect(
-    `https://bike-rent-reservation-system.netlify.app//payment-failure`,
+    `https://bike-rent-reservation-system.netlify.app/payment-failure`,
   )
 })
 
