@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
-import config from '../../config';
-import { TPaymentInfo } from './payment.interface';
+import config from '../../config'
+import { TPaymentInfo } from './payment.interface'
 
-const SSLCommerzPayment = require('sslcommerz-lts');
-const store_id = config?.sslcz_store_id;
-const store_passwd = config?.sslcz_store_password;
-const is_live = false; //true for live, false for sandbox
+const SSLCommerzPayment = require('sslcommerz-lts')
+const store_id = config?.sslcz_store_id
+const store_passwd = config?.sslcz_store_password
+const is_live = false //true for live, false for sandbox
 
 function generateObjectId() {
-  const timestamp = Math.floor(Date.now() / 1000).toString(16);
+  const timestamp = Math.floor(Date.now() / 1000).toString(16)
   const randomBytes = 'xxxxxxxxxxxxxxxx'.replace(/x/g, () =>
     ((Math.random() * 16) | 0).toString(16),
-  );
+  )
 
-  return timestamp + randomBytes;
+  return timestamp + randomBytes
 }
 
 export const initiatePayment = async (paymentInfo: TPaymentInfo) => {
-  const transactionId = generateObjectId();
+  const transactionId = generateObjectId()
   const {
     total_amount,
     currency,
@@ -30,7 +30,7 @@ export const initiatePayment = async (paymentInfo: TPaymentInfo) => {
     cus_phone,
     success_url,
     fail_url,
-  } = paymentInfo;
+  } = paymentInfo
   const data = {
     total_amount,
     currency,
@@ -60,15 +60,15 @@ export const initiatePayment = async (paymentInfo: TPaymentInfo) => {
     ship_state: 'null',
     ship_postcode: 'null',
     ship_country: 'null',
-  };
+  }
 
-  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
 
   const initPaymentUrl = sslcz
     .init(data)
     .then((apiResponse: { GatewayPageURL: string }) => {
-      return apiResponse.GatewayPageURL;
-    });
-  const url = await initPaymentUrl;
-  return { url, transactionId };
-};
+      return apiResponse.GatewayPageURL
+    })
+  const url = await initPaymentUrl
+  return { url, transactionId }
+}

@@ -10,16 +10,16 @@ const app: Application = express()
 //parsers
 app.use(express.json())
 app.use(cookieParser())
-app.use(
-  cors({
-    origin: ['http://localhost:5173'],
-    // 'https://bike-rent-reservation-system.netlify.app/'
 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: 'Content-Type, Authorization',
-  }),
-)
+const corsOptions = {
+  origin: 'https://bike-rent-reservation-system.netlify.app', 
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true, 
+  optionsSuccessStatus: 200, 
+};
+
+app.use(cors(corsOptions));
 
 app.use('/api', router)
 
