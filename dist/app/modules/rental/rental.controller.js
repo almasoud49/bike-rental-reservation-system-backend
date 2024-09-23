@@ -79,9 +79,20 @@ const getAllRentals = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+// const advancePaymentSuccess = catchAsync(async (req, res) => {
+//   const transactionId = req?.params?.transactionId
+//   await RentalServices.makeAdvancePaymentSuccess(transactionId)
+//   res.redirect(
+//     `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`,
+//   )
+// })
 const advancePaymentSuccess = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const transactionId = (_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.transactionId;
+    console.log('Transaction ID:', transactionId);
+    if (!transactionId) {
+        return res.status(400).json({ message: 'Transaction ID is required' });
+    }
     yield rental_service_1.RentalServices.makeAdvancePaymentSuccess(transactionId);
     res.redirect(`https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`);
 }));

@@ -73,26 +73,13 @@ const getAllRentals = catchAsync(async (req, res) => {
   })
 })
 
-// const advancePaymentSuccess = catchAsync(async (req, res) => {
-//   const transactionId = req?.params?.transactionId
-//   await RentalServices.makeAdvancePaymentSuccess(transactionId)
-//   res.redirect(
-//     `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`,
-//   )
-// })
-
 const advancePaymentSuccess = catchAsync(async (req, res) => {
-  const transactionId = req?.params?.transactionId;
-  console.log('Transaction ID:', transactionId); 
-  if (!transactionId) {
-    return res.status(400).json({ message: 'Transaction ID is required' });
-  }
-  await RentalServices.makeAdvancePaymentSuccess(transactionId);
+  const transactionId = req?.params?.transactionId
+  await RentalServices.makeAdvancePaymentSuccess(transactionId)
   res.redirect(
-    `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`
-  );
-});
-
+    `https://bike-rent-reservation-system.netlify.app/dashboard/user/my-rentals?booking=confirmed`,
+  )
+})
 
 
 const advancePaymentFail = catchAsync(async (req, res) => {
