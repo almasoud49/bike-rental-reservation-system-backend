@@ -19,45 +19,28 @@ const http_status_1 = __importDefault(require("http-status"));
 const bikeSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        required: true,
+        required: [true, 'name is required'],
         unique: true,
         trim: true,
     },
-    description: {
+    image: {
         type: String,
-        required: true
+        required: [true, 'image is required'],
     },
-    pricePerHour: {
-        type: Number,
-        required: true
-    },
-    isAvailable: {
-        type: Boolean,
-        default: true
-    },
-    cc: {
-        type: Number,
-        required: true
-    },
-    year: {
-        type: Number,
-        required: true
-    },
-    model: {
-        type: String,
-        required: true
-    },
-    brand: {
-        type: String,
-        required: true
-    },
+    description: { type: String, required: [true, 'description is required'] },
+    pricePerHour: { type: Number, required: [true, 'price is required'] },
+    isAvailable: { type: Boolean, default: true },
+    cc: { type: String, required: [true, 'cc is required'] },
+    year: { type: Number, required: [true, 'year is required'] },
+    model: { type: String, required: [true, 'model is required'] },
+    brand: { type: String, required: [true, 'brand is required'] },
 }, { timestamps: true });
 // check if bike already exist with the new given name
 bikeSchema.pre('save', function () {
     return __awaiter(this, void 0, void 0, function* () {
         const isBikeExist = yield exports.BikeModel.findOne({ name: this === null || this === void 0 ? void 0 : this.name });
         if (isBikeExist) {
-            throw new AppError_1.AppError(http_status_1.default.CONFLICT, 'A bike is already exist with the name', 'name');
+            throw new AppError_1.AppError(http_status_1.default.CONFLICT, 'A bike is already exist with the name');
         }
     });
 });
@@ -67,7 +50,7 @@ bikeSchema.pre('findOneAndUpdate', function () {
         const query = this.getQuery();
         const bike = yield exports.BikeModel.findOne(query);
         if (!bike) {
-            throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Invalid bike id!');
+            throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Invalid Bike id!');
         }
     });
 });
@@ -76,7 +59,7 @@ bikeSchema.pre('findOneAndDelete', function () {
     return __awaiter(this, void 0, void 0, function* () {
         const isBikeExist = yield exports.BikeModel.findOne(this.getQuery());
         if (!isBikeExist) {
-            throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Invalid bike id!', 'id');
+            throw new AppError_1.AppError(http_status_1.default.NOT_FOUND, 'Invalid Bike id!');
         }
     });
 });

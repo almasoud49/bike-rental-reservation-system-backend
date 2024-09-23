@@ -3,7 +3,8 @@ import { AppError } from '../errors/AppError';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import config from '../config';
-import { UserModel } from '../modules/user/user.model';
+import { UserModel } from '../modules/auth/auth.model';
+
 
 
 export const auth  = (allowedUsers: string[]) => {

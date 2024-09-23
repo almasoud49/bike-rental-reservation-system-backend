@@ -17,37 +17,8 @@ const AppError_1 = require("../errors/AppError");
 const http_status_1 = __importDefault(require("http-status"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../config"));
-const user_model_1 = require("../modules/user/user.model");
-// export const auth = (permittedUsers: string[]) => {
-//   return async (req: Request, res: Response, next: NextFunction) => {
-//     try {
-//       const authHeader = req.headers.authorization;
-//       if (!authHeader || !authHeader.startsWith('Bearer ')) {
-//         throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
-//       }
-//       const token = authHeader.split(' ')[1];
-//       // verify jwt token
-//       const { email, role } = jwt.verify(token, config.jwt_access_secret as string) as JwtPayload;
-//       // check user existence with the token credentials
-//       const isUserExist = await UserModel.findOne({ email, role });
-//       if (!isUserExist) {
-//         throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
-//       }
-//       // verify user's role
-//       if (permittedUsers && !permittedUsers.includes(role)) {
-//         return res.status(401).json({
-//           success: false,
-//           statusCode: 401,
-//           message: 'You have no access to this route',
-//         });
-//       }
-//       next();
-//     } catch (error) {
-//       next(error);
-//     }
-//   };
-// };
-const auth = (permittedUsers) => {
+const auth_model_1 = require("../modules/auth/auth.model");
+const auth = (allowedUsers) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const authHeader = req.headers.authorization;
@@ -55,16 +26,20 @@ const auth = (permittedUsers) => {
                 throw new AppError_1.AppError(http_status_1.default.UNAUTHORIZED, 'Unauthorized Access!');
             }
             const token = authHeader.split(' ')[1];
-            // verify jwt token
+            // verify token
             const { email, role } = jsonwebtoken_1.default.verify(token, config_1.default.jwt_access_secret);
-            // check user existence with the token credentials
-            const isUserExist = yield user_model_1.UserModel.findOne({ email, role });
+            // check if user exists with the token credentials
+            const isUserExist = yield auth_model_1.UserModel.findOne({ email, role });
             if (!isUserExist) {
                 throw new AppError_1.AppError(http_status_1.default.UNAUTHORIZED, 'Unauthorized Access!');
             }
-            // verify user's role
-            if (permittedUsers.length && !permittedUsers.includes(role)) {
-                throw new AppError_1.AppError(http_status_1.default.FORBIDDEN, 'You have no access to this route');
+            // verify user role
+            if (allowedUsers && !allowedUsers.includes(role)) {
+                return res.status(401).json({
+                    success: false,
+                    statusCode: 401,
+                    message: 'You have no access to this route',
+                });
             }
             next();
         }

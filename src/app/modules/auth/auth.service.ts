@@ -1,10 +1,10 @@
 import httpStatus from "http-status";
 import { AppError } from "../../errors/AppError";
-import { UserModel } from "../user/user.model";
 import { TLoginUser,TUser,TUpdateUser } from "./auth.interface";
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from "../../config";
+import { UserModel } from "./auth.model";
 
 //Signup User
 const createUserIntoDb = async (payload: TUser) => {

@@ -3,7 +3,8 @@ import { TRental } from './rental.interface';
 import { AppError } from '../../errors/AppError';
 import { BikeModel } from '../bike/bike.model';
 import httpStatus from 'http-status';
-import { UserModel } from '../user/user.model';
+import { UserModel } from '../auth/auth.model';
+
 
 const rentalSchema = new Schema<TRental>({
   userId: { type: Schema.Types.ObjectId, required: true, ref: 'user' },

@@ -28,7 +28,7 @@ const createBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const getAllBikes = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield bike_service_1.BikeServices.getAllBikes();
+    const result = yield bike_service_1.BikeServices.getAllBikes(req.query);
     (0, dataNotFound_1.default)(result, res);
     (0, sendResponse_1.default)(res, {
         message: 'Bikes retrieved successfully',
@@ -36,8 +36,8 @@ const getAllBikes = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const getSingleBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const result = yield bike_service_1.BikeServices.getSingleBike(id);
+    var _a;
+    const result = yield bike_service_1.BikeServices.getSingleBike((_a = req === null || req === void 0 ? void 0 : req.params) === null || _a === void 0 ? void 0 : _a.bikeId);
     (0, dataNotFound_1.default)(result, res);
     (0, sendResponse_1.default)(res, {
         message: 'Bike Retrieved Successfully',

@@ -8,17 +8,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BikeServices = void 0;
+exports.BikeServices = exports.BikeSearchableFields = void 0;
+const QueryBuilder_1 = __importDefault(require("../../builder/QueryBuilder"));
 const bike_model_1 = require("./bike.model");
+exports.BikeSearchableFields = ['name', 'brand', 'cc', 'price'];
 const createBike = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bike_model_1.BikeModel.create(payload);
     return result;
 });
 // get bike from db
-const getAllBikes = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield bike_model_1.BikeModel.find().select('-createdAt -updatedAt -__v');
-    return result;
+const getAllBikes = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const bikeQuery = new QueryBuilder_1.default(bike_model_1.BikeModel.find().select('-createdAt -updatedAt -__v'), query)
+        .search(exports.BikeSearchableFields)
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const result = yield bikeQuery.modelQuery;
+    const meta = yield bikeQuery.countTotal();
+    return {
+        meta,
+        result,
+    };
 });
 const getSingleBike = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield bike_model_1.BikeModel.findById({ _id: id }).select('-createdAt -updatedAt -__v');

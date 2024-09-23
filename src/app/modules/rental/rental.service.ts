@@ -2,7 +2,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { TRental } from "./rental.interface";
 import mongoose, { Types } from "mongoose";
-import { UserModel } from "../user/user.model";
 import { AppError } from "../../errors/AppError";
 import httpStatus from "http-status";
 import { RentalModel } from "./rental.model";
@@ -10,6 +9,7 @@ import { BikeModel } from "../bike/bike.model";
 import { TPaymentInfo } from "../payment/payment.interface";
 import { initiatePayment } from "../payment/payment.utils";
 import QueryBuilder from "../../builder/QueryBuilder";
+import { UserModel } from "../auth/auth.model";
 
 export const BikeSearchableFields = ['name', 'brand', 'cc', 'price'];
 

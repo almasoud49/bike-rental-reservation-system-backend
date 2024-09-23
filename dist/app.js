@@ -14,7 +14,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: 'https://bike-rent-reservation-system.netlify.app',
+    origin: ['http://localhost:5173'],
+    // 'https://bike-rent-reservation-system.netlify.app/'
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization',
