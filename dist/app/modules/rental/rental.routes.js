@@ -19,4 +19,4 @@ router.get('/:id', rental_controller_1.RentalControllers.getSingleRental);
 router.post('/:id', rental_controller_1.RentalControllers.makePayment);
 router.post('/payment-success/:rentalId/:transactionId', rental_controller_1.RentalControllers.paymentSuccess);
 router.post('/payment-fail/:transactionId', rental_controller_1.RentalControllers.paymentFail);
-exports.RentalRoutes = router;
+exports.RentalRoutes = { router };

@@ -12,14 +12,14 @@ app.use(express.json())
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: 'http://localhost:5173', 
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], 
-  allowedHeaders: ['Content-Type', 'Authorization'], 
-  credentials: true, 
-  optionsSuccessStatus: 200, 
-};
+  origin: 'https://bike-rent-reservation-system.netlify.app',
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+}
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 
 app.use('/api', router)
 

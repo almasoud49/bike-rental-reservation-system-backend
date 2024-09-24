@@ -19,8 +19,8 @@ const bike_model_1 = require("../bike/bike.model");
 const http_status_1 = __importDefault(require("http-status"));
 const auth_model_1 = require("../auth/auth.model");
 const rentalSchema = new mongoose_1.Schema({
-    userId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'user' },
-    bikeId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'bike' },
+    userId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'User' },
+    bikeId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'Bike' },
     startTime: { type: String, required: true },
     returnTime: { type: String, default: null },
     totalCost: { type: Number, default: 0 },

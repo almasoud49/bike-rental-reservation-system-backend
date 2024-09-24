@@ -23,7 +23,7 @@ const moduleRoutes = [
     },
     {
         path: '/rentals',
-        route: rental_routes_1.RentalRoutes,
+        route: rental_routes_1.RentalRoutes.router,
     },
     {
         path: '/reviews',
