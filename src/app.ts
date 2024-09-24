@@ -10,27 +10,17 @@ const app: Application = express()
 
 //parsers
 app.use(express.json())
-app.use(cookieParser())
 
-
-const allowedOrigins = ['https://bike-rental-reservation-service.vercel.app']
-
-const corsOptions = {
-  origin: function (origin: any, callback: any) {
-    if (!origin || allowedOrigins.includes(origin) || origin === 'null') {
-      callback(null, true)
-    } else {
-      console.error('Blocked by CORS:', origin)
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200,
-}
-
-app.use(cors(corsOptions))
+app.use(
+  cors({
+    origin: [
+      'http://localhost:5173',
+      'https://bike-rental-reservation-service.vercel.app',
+    ],
+    credentials: true,
+  }),
+);
+app.use(cookieParser());
 
 app.use('/api', router)
 
