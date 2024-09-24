@@ -12,23 +12,22 @@ const app: Application = express()
 app.use(express.json())
 app.use(cookieParser())
 
-const allowedOrigins = ['https://bike-rent-reservation-system.netlify.app'];
+const allowedOrigins = ['https://bike-rental-reservation-service.vercel.app']
 
 const corsOptions = {
   origin: function (origin: any, callback: any) {
     if (!origin || allowedOrigins.includes(origin) || origin === 'null') {
-      callback(null, true);
+      callback(null, true)
     } else {
-      console.error('Blocked by CORS:', origin);
-      callback(new Error('Not allowed by CORS'));
+      console.error('Blocked by CORS:', origin)
+      callback(new Error('Not allowed by CORS'))
     }
   },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200,
-};
-
+}
 
 app.use(cors(corsOptions))
 
