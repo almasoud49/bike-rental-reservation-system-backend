@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import express, { Application, Request, Response } from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -11,13 +12,23 @@ const app: Application = express()
 app.use(express.json())
 app.use(cookieParser())
 
+const allowedOrigins = ['https://bike-rent-reservation-system.netlify.app'];
+
 const corsOptions = {
-  origin: 'https://bike-rent-reservation-system.netlify.app',
+  origin: function (origin: any, callback: any) {
+    if (!origin || allowedOrigins.includes(origin) || origin === 'null') {
+      callback(null, true);
+    } else {
+      console.error('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200,
-}
+};
+
 
 app.use(cors(corsOptions))
 
