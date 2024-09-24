@@ -18,8 +18,8 @@ const createRentalIntoDb = async (
   decodedInfo: JwtPayload,
   paymentInfo: TPaymentInfo,
 ) => {
-  paymentInfo.success_url = `https://bike-rental-reservation-system-backend-six.vercel.app/api/rentals/advance-payment-success`;
-  paymentInfo.fail_url = `https://bike-rental-reservation-system-backend-six.vercel.app/api/rentals/advance-payment-fail`;
+  paymentInfo.success_url = `http://localhost:5000/api/rentals/advance-payment-success`;
+  paymentInfo.fail_url = `http://localhost:5000/api/rentals/advance-payment-fail`;
   const paymentInit = await initiatePayment(paymentInfo);
   if (!paymentInit?.url) {
     throw new AppError(httpStatus.BAD_GATEWAY, 'Payment initiation failed!');
@@ -158,7 +158,7 @@ const getAllRentalsFromDb = async (
     const userInfo = await UserModel.findOne({ email, role });
 
     if (!userInfo) {
-      throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized!');
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized Access!');
     }
     query.userId = userInfo?._id;
   }
@@ -191,6 +191,8 @@ const getSingleRentalFromDb = async (id: string) => {
   return result;
 };
 
+
+
 const makePayment = async (rentalId: string, paymentInfo: TPaymentInfo) => {
   const rental = await RentalModel.findById(rentalId);
 
@@ -217,8 +219,8 @@ const makePayment = async (rentalId: string, paymentInfo: TPaymentInfo) => {
       message: `Total cost and advance amount is equal! So, payment is done! 😀`,
     };
   } else {
-    paymentInfo.success_url = `https://bike-rental-reservation-system-backend-six.vercel.app/api/rentals/payment-success/${rentalId}`;
-    paymentInfo.fail_url = `https://bike-rental-reservation-system-backend-six.vercel.app/api/rentals/payment-fail`;
+    paymentInfo.success_url = `http://localhost:5000/api/rentals/payment-success/${rentalId}`;
+    paymentInfo.fail_url = `http://localhost:5000/api/rentals/payment-fail`;
     const paymentInit = await initiatePayment(paymentInfo);
     if (!paymentInit?.url) {
       throw new AppError(httpStatus.BAD_GATEWAY, 'Payment initiation failed!');

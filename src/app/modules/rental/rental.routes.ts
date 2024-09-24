@@ -32,4 +32,4 @@ router.post(
 router.post('/payment-fail/:transactionId', RentalControllers.paymentFail);
 
 
-export const RentalRoutes = router
+export const RentalRoutes = {router}

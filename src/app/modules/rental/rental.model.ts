@@ -7,8 +7,8 @@ import { UserModel } from '../auth/auth.model';
 
 
 const rentalSchema = new Schema<TRental>({
-  userId: { type: Schema.Types.ObjectId, required: true, ref: 'user' },
-  bikeId: { type: Schema.Types.ObjectId, required: true, ref: 'bike' },
+  userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+  bikeId: { type: Schema.Types.ObjectId, required: true, ref: 'Bike' },
   startTime: { type: String, required: true },
   returnTime: { type: String, default: null },
   totalCost: { type: Number, default: 0 },
